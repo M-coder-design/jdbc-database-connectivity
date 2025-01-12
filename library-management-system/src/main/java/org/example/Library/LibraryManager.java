@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Library Management System class that handles all database operations
-public class LibraryManager {
+public class LibraryManager implements AutoCloseable {
+    private DatabaseConnection dbConnection;
     private Connection connection;
 
-    public LibraryManager() {
+    public LibraryManager() throws SQLException {
         // Get the database connection from our singleton
-        this.connection = DatabaseConnection.getInstance().getConnection();
+        this.dbConnection = DatabaseConnection.getInstance();
+        this.connection = dbConnection.getConnection();
     }
 
     // Method to add a new book using PreparedStatement
@@ -161,6 +163,14 @@ public class LibraryManager {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Implement AutoCloseable interface to support try-with-resources
+    @Override
+    public void close() throws Exception {
+        if (dbConnection != null) {
+            dbConnection.closeConnection();
         }
     }
 }

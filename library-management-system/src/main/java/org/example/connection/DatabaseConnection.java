@@ -40,7 +40,36 @@ public class DatabaseConnection {
     }
 
     // Method to get the connection
-    public Connection getConnection() {
+    public Connection getConnection() throws SQLException {
+        if (closed) {
+            throw new SQLException("Database connection is closed");
+        }
+        // Check if connection is valid and reconnect if necessary
+        if (connection == null || connection.isClosed()) {
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        }
         return connection;
     }
+
+    // Method to close the connection
+    public void closeConnection() {
+        if (connection != null) {
+            try {
+                connection.close();
+                closed = true;
+                instance = null;  // Reset the singleton instance
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Method to check if connection is closed
+    public boolean isClosed() {
+        return closed;
+    }
+
 }
+
+
+
