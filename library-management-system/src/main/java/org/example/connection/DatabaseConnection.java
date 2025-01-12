@@ -9,6 +9,9 @@ public class DatabaseConnection {
     private static DatabaseConnection instance;
     private Connection connection;
 
+    // volatile keyword ensures thread safety for double-checked locking
+    private static volatile boolean closed = false;
+
     // Database credentials - replace with your own
     private static final String URL = "jdbc:mysql://localhost:3306/library_db";
     private static final String USERNAME = "root";

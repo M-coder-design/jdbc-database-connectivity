@@ -15,22 +15,22 @@ public class Main {
         newBook.setAuthor("F. Scott Fitzgerald");
         newBook.setYear(1925);
         manager.addBook(newBook);
-//
-//        // Getting all books
+
+        // Getting all books
         List<Book> allBooks = manager.getAllBooks();
         for (Book book : allBooks) {
             System.out.println(book.getTitle());
         }
-////
-//        // Updating a book
+
+        // Updating a book
         newBook.setId(1); // Assuming the book got ID 1
         newBook.setYear(1926);
         manager.updateBook(newBook);
-//
-//        // Deleting a book
+
+        // Deleting a book
         manager.deleteBook(1);
-//
-//        // Using transaction to transfer a book
+
+        // Using transaction to transfer a book
         manager.transferBook(2, 1, 2);
 
         // Using stored procedure
